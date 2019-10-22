@@ -28,7 +28,7 @@
 					<i class="fas fa-lock"></i>
 				</div>
 				<div class="form-row-last">
-					<input type="submit" name="register" class="register" value="Register">
+					<input type="submit" id="registerBtn" name="register" class="register" value="Register">
                 </div>
                 
                 <div style="display: flex;justify-content: center; align-items: center;">
@@ -37,5 +37,43 @@
 			</form>
 		</div>
 	</div>
-</body>-->
+<!-- we add the axios library to use for http ajax requests -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+	
+<!-- login js -->
+<script>	
+	 
+	// function that sends the login request 
+	async function register(){
+
+	   //get the username and password from the input fields	
+	   let username = document.getElementById("user-name").value
+	   let password = document.getElementById("password").value
+	   
+	   //set the payload to be sent
+	   let data = {
+		   username : username,
+		   password : password
+	   }
+		
+	  try{
+		//send the post request with the data to login endpoint  
+		let response = await axios.post('/signup',data);
+			
+        alert("You can now login") 
+	  }catch(err){
+		alert(JSON.stringify(err))
+	  }
+	}
+	 
+	//set ebent listener to login button
+	document.getElementById("registerBtn").onclick = (e)=>{
+		e.preventDefault() //prevents the default action of submitting the form
+	
+		register()
+	}
+
+
+</script>
+</body>
 </html>

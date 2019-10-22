@@ -1,11 +1,13 @@
 
+let auth = require('../auth/auth')
+
 //handles the login request
 exports.login = (req,res) => {
 
-    let sql = "SELECT * FROM users WHERE username = '"+req.body.username+"' AND password = '"+req.body.password+"'"
+    let sql = "SELECT * FROM users WHERE username = '"+req.body.username+"'";
     
     //query the db
-    db.query(sql,(err,results)=>{
+    db.query(sql,async (err,results)=>{
 
         if(err){
             console.log(err)
@@ -16,8 +18,14 @@ exports.login = (req,res) => {
         //if we have some rows returned length of results will be one
         //results is json aray , with the returned rows as json objects within the array
         if(results.length > 0){
-            //if user found return the message and id
-            res.send({ message : "Authenticated", id : results[0].id})
+            let valid = await auth.confirm(req.body.password,results[0].password)
+            if(valid) {
+                //create the key
+                let key = await auth.key(results[0].id)
+                console.log("HERERERE"+key)
+                //send the key
+                res.send({ message  : "Authenticated",key : key ,id : results[0].id})
+            }
         }else{
 
             res.send({ message : "Not Authenticted"})
@@ -25,6 +33,20 @@ exports.login = (req,res) => {
         
     })
 }
+
+exports.signup = (req,res) =>{
+    //get our pass and username
+    let password = req.body.password
+    let username = req.body.username
+    
+    //if user found return the message and id
+    res.send({ message : "Registered", })
+
+    //hash pass
+    auth.hash(username,password)
+   
+  
+} 
 
 
 //handles request of a user's list
