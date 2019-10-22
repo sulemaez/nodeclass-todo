@@ -13,6 +13,7 @@ router.post('/login',con.login)
 router.post('/signup',con.signup)
 
 //end point to get list of a user
+//pass request through the auth middleware first
 router.get('/list',auth.auth,con.getItems)
 
 module.exports = router

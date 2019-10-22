@@ -61,9 +61,10 @@
 			
 			//the result returned wil be contained inside the response.data object
 			if(response.data.message == "Authenticated"){
-
+                //set the cookies     
 				Cookies.set('key',response.data.key)
 				Cookies.set('userId',response.data.id)
+
 				//if logged in change url to the home with id qury parameter
                 window.location.href = "/home.html"
 			}else{
@@ -81,14 +82,17 @@
 		
 			login()
 		}
-		
+		 
+		//checks if the user cookies exists
+		//if true goes to the home page
 		function loggedIn(){
 			let key = Cookies.get('key')
-			if(key){
+			let user = Cookies.get('userId')
+			if(key && user){
 				window.location.href = "/home.html"
 			}
 		}
-
+      
 		loggedIn()
 
 	</script>

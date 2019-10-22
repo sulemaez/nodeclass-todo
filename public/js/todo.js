@@ -1,11 +1,14 @@
   
   //function that gets the to do list of user from the database
   async function getFromDb(){
+      //get the userId and key from cookies
       let id = Cookies.get('userId')
-       let key = Cookies.get('key')
+      let key = Cookies.get('key')
+
       try {
         
         //get request to get the list items of user
+        //set the idea and key as query parameters
         let res = await axios.get(`/list?id=${id}&key=${key}`)
         
         //for each item add to the list in ui

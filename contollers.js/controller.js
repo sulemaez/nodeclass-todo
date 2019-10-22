@@ -52,12 +52,14 @@ exports.signup = (req,res) =>{
 //handles request of a user's list
 exports.getItems = (req,res) => {
     let sql = "SELECT * FROM lists WHERE userId = "+req.query.id
+
     db.query(sql,(err,results)=>{
         if(err){
             console.log(err)
             res.send({ message : "Error in db !"})
             return
         }
+        
         if(results.length > 0){
             res.send(results)
         }else{
