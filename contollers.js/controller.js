@@ -34,6 +34,23 @@ exports.login = (req,res) => {
     })
 }
 
+exports.logout = (req,res) => {
+  
+    let sql = `DELETE FROM sessions WHERE userId = ${req.query.id}`
+
+    db.query(sql,(err,results)=>{
+        if(err){
+            console.log(err)
+            res.status(500)
+            res.send({ message : "Error"})
+            return
+        
+        }
+        res.send({message : "logout"})
+    })
+}
+
+
 exports.signup = (req,res) =>{
     //get our pass and username
     let password = req.body.password
@@ -69,4 +86,45 @@ exports.getItems = (req,res) => {
     })
 }
 
+exports.addItem = (req,res) =>{
+   let sql = `INSERT INTO lists(id,userId,body) VALUES('${req.body.id}',${req.body.userId},'${req.body.value}')`
+
+   db.query(sql,(err,results)=>{
+    if(err){
+        console.log(err)
+        res.send({ message : "Error in db !"})
+        return
+    }
+     res.send({});
+   })
+
+
+}
+
+exports.deleteItem = (req,res) =>{
+    let sql = `DELETE FROM lists WHERE id = '${req.query.id}' `
+ 
+    db.query(sql,(err,results)=>{
+     if(err){
+         console.log(err)
+         res.send({ message : "Error in db !"})
+         return
+     }
+      res.send({});
+    })
+ 
+ }
+
+ exports.setDone = (req,res) => {
+     let sql = `UPDATE lists SET done = 1 WHERE id = '${req.body.id}'`
+
+     db.query(sql,(err,results)=>{
+        if(err){
+            console.log(err)
+            res.send({ message : "Error in db !"})
+            return
+        }
+         res.send({});
+       })
+ }
 
